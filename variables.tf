@@ -16,7 +16,6 @@ variable "product_base_name" {
 variable "env" {
   description = "Variable to mark the environment of the resource (used to create services)."
   type        = string
-  default     = "dev"
 }
 
 variable "composer_roles" {
