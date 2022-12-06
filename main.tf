@@ -6,10 +6,10 @@ resource "random_string" "main" {
 # Composer service account
 resource "google_service_account" "composer_sa" {
   account_id   = "${var.env}-${var.product_base_name}-composer"
-  display_name = "${var.env}-${var.product_base_name}-composer"
+  display_name = "${var.env}-${var.product_base_name}-composer-sa"
 }
 
-resource "google_project_iam_member" "composer-worker" {
+resource "google_project_iam_member" "composer_worker" {
   project  = var.project_id
   for_each = var.composer_roles
   role     = each.key
