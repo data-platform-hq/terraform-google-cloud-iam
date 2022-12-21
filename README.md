@@ -1,5 +1,5 @@
 # Google Cloud Identity and Access Management Terraform module
-Terraform module for creation Google Cloud Identity and Access Management resources
+Terraform module for creation of Google Cloud Identity and Access Management resources
 
 ## Usage
 
@@ -43,11 +43,11 @@ No modules.
 | <a name="input_sa_permissions"></a> [sa\_permissions](#input\_sa\_permissions)            | Permissions for service accounts                                           | `map(any)`    | {}      |   yes    |
 
 ## Outputs
-| Name                                                                                        | Description                                                 |
-| ------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| <a name="output_composer_sa_email"></a> [composer\_sa\_email](#output\_composer\_sa\_email) | E-mail address of the composer service account.             |
-| <a name="output_sa_email"></a> [sa\_email](#output\_sa\_email)                              | E-mail address of the service account.                      |
-| <a name="output_sa_key"></a> [sa\_key](#output\_sa\_key)                                    | Service account private key in JSON format, base64 encoded. |
+| Name                                                                                        | Description                                     |
+| ------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| <a name="output_composer_sa_email"></a> [composer\_sa\_email](#output\_composer\_sa\_email) | E-mail address of the composer service account. |
+| <a name="output_sa_email"></a> [sa\_email](#output\_sa\_email)                              | E-mail address of the service account.          |
+| <a name="output_sa_key"></a> [sa\_key](#output\_sa\_key)                                    | Service account private key in JSON format.     |
 
 <!-- END_TF_DOCS -->
 
