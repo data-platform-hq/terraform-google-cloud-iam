@@ -22,7 +22,6 @@ resource "google_project_iam_member" "composer_agent" {
   member  = "serviceAccount:service-${var.project_number}@cloudcomposer-accounts.iam.gserviceaccount.com"
 }
 
-
 ## Service accounts
 resource "google_service_account" "services_sa" {
   for_each     = var.sa_permissions
@@ -32,8 +31,8 @@ resource "google_service_account" "services_sa" {
 
 resource "google_project_iam_custom_role" "services_sa_role" {
   for_each    = var.sa_permissions
-  role_id     = replace("${var.env}-${var.product_base_name}-${each.key}-${random_string.main.result}", "-", "_")
-  title       = "${var.env}-${var.product_base_name}-${each.key} Role"
+  role_id     = replace("${var.env}-${var.product_base_name}-${each.key}-${random_string.main.result}", "_", "-")
+  title       = replace("${var.env}-${var.product_base_name}-${each.key} Role", "_", "-")
   permissions = each.value
 }
 
