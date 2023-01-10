@@ -33,14 +33,14 @@ No modules.
 | [random_string.main](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string)                                                              | resource |
 
 ## Inputs
-| Name                                                                                      | Description                                                                | Type          | Default | Required |
-| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------- | ------- | :------: |
-| <a name="input_project_id"></a> [project\_id](#input\_project\_id)                        | The ID of the project to which the resource belongs                        | `string`      | n/a     |   yes    |
-| <a name="input_project_number"></a> [project\_number](#input\_project\_number)            | The numeric identifier of the GCP project                                  | `string`      | n/a     |   yes    |
-| <a name="input_product_base_name"></a> [product\_base\_name](#input\_product\_base\_name) | Cloud resources base name (used to create services)                        | `string`      | n/a     |   yes    |
-| <a name="input_env"></a> [env](#input\_env)                                               | Variable to mark the environment of the resource (used to create services) | `string`      | n/a     |   yes    |
-| <a name="input_composer_roles"></a> [composer\_roles](#input\_composer\_roles)            | The role that should be applied for Composer service account               | `set(string)` | []      |   yes    |
-| <a name="input_sa_permissions"></a> [sa\_permissions](#input\_sa\_permissions)            | Permissions for service accounts                                           | `map(any)`    | {}      |   yes    |
+| Name                                                                                      | Description                                                                 | Type          | Default | Required |
+| ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------- | ------- | :------: |
+| <a name="input_project_id"></a> [project\_id](#input\_project\_id)                        | ID of the project in which the resources should be created.                 | `string`      | n/a     |   yes    |
+| <a name="input_project_number"></a> [project\_number](#input\_project\_number)            | The numeric identifier of the GCP project.                                  | `string`      | n/a     |   yes    |
+| <a name="input_product_base_name"></a> [product\_base\_name](#input\_product\_base\_name) | Cloud resources base name (used to create services).                        | `string`      | n/a     |   yes    |
+| <a name="input_env"></a> [env](#input\_env)                                               | Variable to mark the environment of the resource (used to create services). | `string`      | n/a     |   yes    |
+| <a name="input_composer_roles"></a> [composer\_roles](#input\_composer\_roles)            | The role that should be applied for Composer service account.               | `set(string)` | []      |   yes    |
+| <a name="input_sa_permissions"></a> [sa\_permissions](#input\_sa\_permissions)            | Permissions for service accounts.                                           | `map(any)`    | {}      |   yes    |
 
 ## Outputs
 | Name                                                                                        | Description                                     |
