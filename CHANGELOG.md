@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/data-platform-hq/terraform-google-cloud-iam/compare/v1.0.0...v1.0.1) (2023-01-23)
+
+
+### Bug Fixes
+
+* roles id configuration ([0441c95](https://github.com/data-platform-hq/terraform-google-cloud-iam/commit/0441c95639af2895a8aaccb8ae164f0f46d68878))
+
 # 1.0.0 (2023-01-23)
 
 
