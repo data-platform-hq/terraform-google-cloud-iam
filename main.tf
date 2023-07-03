@@ -1,49 +1,53 @@
-resource "random_string" "main" {
-  length  = 5
-  special = false
+locals {
+  prefix          = length(var.prefix) == 0 ? "" : "${replace(var.prefix, "-", "_")}"
+  env             = length(var.env) == 0 ? "" : "${replace(var.env, "-", "_")}"
+  service_account = var.iam_entity.special_sa ? null : "${var.prefix}-${var.env}-${replace(var.iam_entity.account_id, "-", "")}-sa"
+  custom_role     = var.iam_entity.permissions != null ? "${local.prefix}${local.env}${replace(var.iam_entity.account_id, "-", "_")}" : null
 }
 
-# Composer service account
-resource "google_service_account" "composer_sa" {
-  account_id   = "${var.env}-${var.product_base_name}-composer"
-  display_name = "${var.env}-${var.product_base_name}-composer-sa"
+resource "google_service_account" "this" {
+  count = local.service_account != null ? 1 : 0
+
+  account_id   = local.service_account
+  display_name = var.iam_entity.description
 }
 
-resource "google_project_iam_member" "composer_worker" {
-  project  = var.project_id
-  for_each = var.composer_roles
-  role     = each.key
-  member   = "serviceAccount:${google_service_account.composer_sa.email}"
-}
+resource "google_project_iam_member" "this" {
+  for_each = { for role in var.iam_entity.role : "${var.iam_entity.account_id}-${role}" => role if local.service_account != null }
 
-resource "google_project_iam_member" "composer_agent" {
   project = var.project_id
-  role    = "roles/composer.ServiceAgentV2Ext"
-  member  = "serviceAccount:service-${var.project_number}@cloudcomposer-accounts.iam.gserviceaccount.com"
+  role    = each.value
+  member  = "serviceAccount:${google_service_account.this[0].email}"
 }
 
-## Service accounts
-resource "google_service_account" "services_sa" {
-  for_each     = var.sa_permissions
-  account_id   = replace("${var.env}-${var.product_base_name}-${each.key}", "_", "-")
-  display_name = "${var.env}-${var.product_base_name}-${each.key}-sa"
+resource "google_project_iam_member" "special_sa" {
+  for_each = { for role in var.iam_entity.role : "${var.iam_entity.account_id}-${role}" => role if alltrue([var.iam_entity.role != null, var.iam_entity.special_sa]) }
+
+  project = var.project_id
+  role    = each.value
+  member  = "serviceAccount:${var.iam_entity.account_id}"
 }
 
-resource "google_project_iam_custom_role" "services_sa_role" {
-  for_each    = var.sa_permissions
-  role_id     = replace("${var.env}-${var.product_base_name}-${each.key}-${random_string.main.result}", "-", "_")
-  title       = replace("${var.env}-${var.product_base_name}-${each.key} Role", "_", "-")
-  permissions = each.value
+resource "google_project_iam_custom_role" "this" {
+  count = var.iam_entity.permissions != null ? 1 : 0
+
+  role_id     = "${local.custom_role}_customrole"
+  project     = var.project_id
+  title       = "${local.custom_role}-customrole"
+  stage       = "GA"
+  permissions = var.iam_entity.permissions
 }
 
-resource "google_project_iam_member" "services_sa" {
-  project  = var.project_id
-  for_each = var.sa_permissions
-  role     = google_project_iam_custom_role.services_sa_role[each.key].id
-  member   = "serviceAccount:${google_service_account.services_sa[each.key].email}"
+resource "google_project_iam_member" "custom_role_member" {
+  count = var.iam_entity.permissions != null ? 1 : 0
+
+  project = var.project_id
+  role    = google_project_iam_custom_role.this[0].id
+  member  = var.iam_entity.special_sa ? "serviceAccount:${var.iam_entity.account_id}" : "serviceAccount:${google_service_account.this[0].email}"
 }
 
-resource "google_service_account_key" "services_sa_key" {
-  for_each           = var.sa_permissions
-  service_account_id = google_service_account.services_sa[each.key].email
+resource "google_service_account_key" "this" {
+  count = alltrue([var.iam_entity.generate_key == true, var.iam_entity.special_sa == false]) ? 1 : 0
+
+  service_account_id = google_service_account.this[0].id
 }

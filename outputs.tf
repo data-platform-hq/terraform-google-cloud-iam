@@ -1,14 +1,9 @@
-output "composer_sa_email" {
-  value       = google_service_account.composer_sa.email
-  description = "E-mail address of the composer service account."
+output "service_account_email" {
+  value       = var.iam_entity.special_sa ? null : google_service_account.this[0].email
+  description = "E-mail address of the service account"
 }
 
-output "sa_email" {
-  value       = { for k, v in var.sa_permissions : k => google_service_account.services_sa[k].email }
-  description = "E-mail address of the service account."
-}
-
-output "sa_key" {
-  value       = { for k, v in var.sa_permissions : k => base64decode(google_service_account_key.services_sa_key[k].private_key) }
-  description = "Service account private key in JSON format."
+output "service_account_key_private_key" {
+  value       = alltrue([var.iam_entity.generate_key == true, var.iam_entity.special_sa == false]) ? google_service_account_key.this[0].private_key : null
+  description = "Service account private key in JSON format"
 }
