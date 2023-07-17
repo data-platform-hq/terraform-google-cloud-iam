@@ -2,7 +2,7 @@ locals {
   prefix          = length(var.prefix) == 0 ? "" : "${var.prefix}-"
   env             = length(var.env) == 0 ? "" : "${var.env}-"
   service_account = var.iam_entity.special_sa ? null : "${local.prefix}${local.env}sa-${replace(var.iam_entity.account_id, "-", " ")}"
-  custom_role     = var.iam_entity.permissions != null ? replace("${local.prefix}${local.env}${var.iam_entity.account_id}", "-", "_") : null
+  custom_role     = var.iam_entity.permissions != null ? "${local.prefix}${local.env}${var.iam_entity.account_id}" : null
 }
 
 resource "google_service_account" "this" {
@@ -31,7 +31,7 @@ resource "google_project_iam_member" "special_sa" {
 resource "google_project_iam_custom_role" "this" {
   count = var.iam_entity.permissions != null ? 1 : 0
 
-  role_id     = "${local.custom_role}_customrole"
+  role_id     = "${replace(local.custom_role, "-", "_")}_customrole"
   project     = var.project_id
   title       = "${local.custom_role} customrole"
   stage       = "GA"
