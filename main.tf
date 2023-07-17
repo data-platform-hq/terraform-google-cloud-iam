@@ -1,15 +1,15 @@
 locals {
-  prefix          = length(var.prefix) == 0 ? "" : "${replace(var.prefix, "-", "_")}"
-  env             = length(var.env) == 0 ? "" : "${replace(var.env, "-", "_")}"
-  service_account = var.iam_entity.special_sa ? null : "${var.prefix}-${var.env}-${replace(var.iam_entity.account_id, "-", "")}-sa"
-  custom_role     = var.iam_entity.permissions != null ? "${local.prefix}${local.env}${replace(var.iam_entity.account_id, "-", "_")}" : null
+  prefix          = length(var.prefix) == 0 ? "" : "${var.prefix}-"
+  env             = length(var.env) == 0 ? "" : "${var.env}-"
+  service_account = var.iam_entity.special_sa ? null : "${local.prefix}${local.env}sa-${replace(var.iam_entity.account_id, "-", " ")}"
+  custom_role     = var.iam_entity.permissions != null ? replace("${local.prefix}${local.env}${var.iam_entity.account_id}", "-", "_") : null
 }
 
 resource "google_service_account" "this" {
   count = local.service_account != null ? 1 : 0
 
   account_id   = local.service_account
-  display_name = var.iam_entity.description
+  display_name = var.iam_entity.display_name
 }
 
 resource "google_project_iam_member" "this" {
@@ -33,7 +33,7 @@ resource "google_project_iam_custom_role" "this" {
 
   role_id     = "${local.custom_role}_customrole"
   project     = var.project_id
-  title       = "${local.custom_role}-customrole"
+  title       = "${local.custom_role} customrole"
   stage       = "GA"
   permissions = var.iam_entity.permissions
 }
