@@ -18,11 +18,11 @@ variable "prefix" {
 variable "iam_entity" {
   description = <<-EOT
   IAM entities with roles and permissions. 
-  "account_id" is used for username part of email for new servise account <account_id>@<project_id>.iam.gserviceaccount.com.
-  If "special_sa" it's true you can add role or permissin for Google-managed service accounts.
+  "account_id" is used for username part of email for new service account <account_id>@<project_id>.iam.gserviceaccount.com.
+  If "special_sa" it's true you can add role or permission for Google-managed service accounts.
   If "role" not empty the set of predefined GCP roles will be assigned to this service account.
   If "permissions" not empty a custom role with the set of permissions will be created.
-  If "generate_key" it's true the json key for sevice account will be created.
+  If "generate_key" it's true the json key for service account will be created.
   EOT
   type = object({
     account_id   = string
