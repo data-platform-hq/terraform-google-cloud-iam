@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/data-platform-hq/terraform-google-cloud-iam/compare/v1.0.1...v1.1.0) (2023-08-21)
+
+
+### Features
+
+* removed unused variables ([5339cd7](https://github.com/data-platform-hq/terraform-google-cloud-iam/commit/5339cd75c54ef835e829c9624f675686ab23d07b))
+* updated module ([0963ce8](https://github.com/data-platform-hq/terraform-google-cloud-iam/commit/0963ce8eca85444c0f426338399040d454af0e05))
+* updated name formation ([004de95](https://github.com/data-platform-hq/terraform-google-cloud-iam/commit/004de9525560072a0ca96e0e96f6c3b196fd7796))
+
 ## [1.0.1](https://github.com/data-platform-hq/terraform-google-cloud-iam/compare/v1.0.0...v1.0.1) (2023-01-23)
 
 
