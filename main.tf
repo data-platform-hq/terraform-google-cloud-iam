@@ -60,4 +60,3 @@ resource "google_service_account_key" "this" {
 #   role    = google_project_iam_custom_role.this[0].id
 #   member  = var.iam_entity.special_sa ? "serviceAccount:${var.iam_entity.account_id}" : "serviceAccount:${google_service_account.this[0].email}"
 # }
-
